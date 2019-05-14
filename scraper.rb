@@ -5,7 +5,6 @@ def scrape
   base_url    = "https://eservices.ballarat.vic.gov.au/ePathway/Production/Web/GeneralEnquiry/EnquiryLists.aspx?ModuleCode=LAP"
 
   agent = Mechanize.new
-  agent.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
   # Select 'Planning Applications Currently on Advertising' and hit Next
   page = agent.get(base_url)
