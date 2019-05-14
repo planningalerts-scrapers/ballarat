@@ -5,9 +5,7 @@ def field(page, name)
   page.at("span:contains(\"#{name}\")").next.inner_text.to_s.strip
 end
 
-def scrape
-  base_url    = "https://eservices.ballarat.vic.gov.au/ePathway/Production/Web/GeneralEnquiry/EnquiryLists.aspx?ModuleCode=LAP"
-
+def scrape(base_url)
   agent = Mechanize.new
 
   # Select 'Planning Applications Currently on Advertising' and hit Next
@@ -41,7 +39,9 @@ def scrape
   end
 end
 
-scrape do |record|
+base_url = "https://eservices.ballarat.vic.gov.au/ePathway/Production/Web/GeneralEnquiry/EnquiryLists.aspx?ModuleCode=LAP"
+
+scrape(base_url) do |record|
   puts "Storing " + record['council_reference'] + " - " + record['address']
 #      puts record
   ScraperWiki.save_sqlite(['council_reference'], record)
