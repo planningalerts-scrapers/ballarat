@@ -14,8 +14,7 @@ page = form.submit(form.button_with(:value => /Next/))
 
 # Hit the Search button
 form = page.forms.first
-form['ctl00$MainBodyContent$mGeneralEnquirySearchControl$mSearchButton'] = 'Search'
-page = form.submit()
+page = form.submit(form.button_with(:value => /Search/))
 
 page.search("tr.ContentPanel, tr.AlternateContentPanel").each do |tr|
   tr.search("a").each do |a|
