@@ -1,6 +1,10 @@
 require 'scraperwiki'
 require 'mechanize'
 
+def field(page, name)
+  page.at("span:contains(\"#{name}\")").next.inner_text.to_s.strip
+end
+
 def scrape
   base_url    = "https://eservices.ballarat.vic.gov.au/ePathway/Production/Web/GeneralEnquiry/EnquiryLists.aspx?ModuleCode=LAP"
 
@@ -23,17 +27,13 @@ def scrape
       # detail_page contain `date_received`
       detail_page = agent.get(URI.parse(base_url) + a['href'].to_s)
 
-      date_received = detail_page.at('span:contains("Date Received")').next.inner_text.to_s.strip
-      council_reference = detail_page.at('span:contains("Application Number")').next.inner_text.to_s.strip
-      description = detail_page.at('span:contains("Proposed Use or Development")').next.inner_text.to_s.strip
-
       record = {
-        'council_reference' => council_reference,
+        'council_reference' => field(detail_page, "Application Number"),
         'address' => address,
-        'description' => description,
+        'description' => field(detail_page, "Proposed Use or Development"),
         'info_url' => base_url,
         'date_scraped' => Date.today.to_s,
-        'date_received' => Date.parse(date_received).to_s,
+        'date_received' => Date.parse(field(detail_page, "Date Received")).to_s,
       }
 
       yield record
