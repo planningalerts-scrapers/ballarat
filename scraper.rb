@@ -3,7 +3,6 @@ require 'mechanize'
 
 base_url    = "https://eservices.ballarat.vic.gov.au/ePathway/Production/Web/GeneralEnquiry/EnquiryLists.aspx?ModuleCode=LAP"
 detail_url  = "https://eservices.ballarat.vic.gov.au/ePathway/Production/Web/GeneralEnquiry/"
-comment_url = 'mailto:ballcity@ballarat.vic.gov.au'
 
 agent = Mechanize.new
 agent.verify_mode = OpenSSL::SSL::VERIFY_NONE
@@ -29,7 +28,6 @@ page.search("tr.ContentPanel, tr.AlternateContentPanel").each do |tr|
       'address' => tr.search("td")[1].inner_text + ", " + tr.search("td")[2].inner_text + ", VIC",
       'description' => tr.search("span.ContentText, span.AlternateContentText")[1].inner_text,
       'info_url' => base_url,
-      'comment_url' => comment_url,
       'date_scraped' => Date.today.to_s,
       'date_received' => Date.parse(date).to_s,
     }
