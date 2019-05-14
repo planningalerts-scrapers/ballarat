@@ -8,12 +8,12 @@ agent.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
 # Select 'Planning Applications Currently on Advertising' and hit Next
 page = agent.get(base_url)
-form = page.form_with(id: "aspnetForm")
+form = page.forms.first
 form.radiobuttons[0].click
 page = form.submit(form.button_with(:value => /Next/))
 
 # Hit the Search button
-form = page.form_with(id: "aspnetForm")
+form = page.forms.first
 form['ctl00$MainBodyContent$mGeneralEnquirySearchControl$mSearchButton'] = 'Search'
 page = form.submit()
 
