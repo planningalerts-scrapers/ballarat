@@ -11,7 +11,7 @@ VCR.configure do |config|
   config.hook_into :webmock
 end
 
-File.delete("./data.sqlite")
+File.delete("./data.sqlite") if File.exist?("./data.sqlite")
 
 VCR.use_cassette("scraper") do
   require "./scraper"

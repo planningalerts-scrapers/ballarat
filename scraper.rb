@@ -2,7 +2,6 @@ require 'scraperwiki'
 require 'mechanize'
 
 base_url    = "https://eservices.ballarat.vic.gov.au/ePathway/Production/Web/GeneralEnquiry/EnquiryLists.aspx?ModuleCode=LAP"
-detail_url  = "https://eservices.ballarat.vic.gov.au/ePathway/Production/Web/GeneralEnquiry/"
 
 agent = Mechanize.new
 agent.verify_mode = OpenSSL::SSL::VERIFY_NONE
@@ -21,7 +20,7 @@ page = form.submit()
 page.search("tr.ContentPanel, tr.AlternateContentPanel").each do |tr|
   tr.search("a").each do |a|
     # detail_page contain `date_received`
-    detail_page = agent.get(detail_url + a['href'].to_s)
+    detail_page = agent.get(URI.parse(base_url) + a['href'].to_s)
     date = detail_page.at('span.AlternateContentHeading:contains("Date Received")').next.inner_text.to_s.strip
     record = {
       'council_reference' => tr.search("a")[0].inner_text,
