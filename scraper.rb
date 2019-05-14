@@ -18,16 +18,22 @@ def scrape
 
   page.search("tr.ContentPanel, tr.AlternateContentPanel").each do |tr|
     tr.search("a").each do |a|
+      address = tr.search("td")[1].inner_text + ", " + tr.search("td")[2].inner_text + ", VIC"
+
       # detail_page contain `date_received`
       detail_page = agent.get(URI.parse(base_url) + a['href'].to_s)
-      date = detail_page.at('span.AlternateContentHeading:contains("Date Received")').next.inner_text.to_s.strip
+
+      date_received = detail_page.at('span:contains("Date Received")').next.inner_text.to_s.strip
+      council_reference = detail_page.at('span:contains("Application Number")').next.inner_text.to_s.strip
+      description = detail_page.at('span:contains("Proposed Use or Development")').next.inner_text.to_s.strip
+
       record = {
-        'council_reference' => tr.search("a")[0].inner_text,
-        'address' => tr.search("td")[1].inner_text + ", " + tr.search("td")[2].inner_text + ", VIC",
-        'description' => tr.search("span.ContentText, span.AlternateContentText")[1].inner_text,
+        'council_reference' => council_reference,
+        'address' => address,
+        'description' => description,
         'info_url' => base_url,
         'date_scraped' => Date.today.to_s,
-        'date_received' => Date.parse(date).to_s,
+        'date_received' => Date.parse(date_received).to_s,
       }
 
       yield record
