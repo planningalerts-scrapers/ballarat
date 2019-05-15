@@ -1,5 +1,3 @@
-require 'scraperwiki'
-require 'mechanize'
 require '../epathway_scraper'
 
 scraper = EpathwayScraper.new(
