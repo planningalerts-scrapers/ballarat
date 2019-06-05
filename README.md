@@ -1,10 +1,1 @@
-# City of Ballarat Council Scraper
-
-* Server - .NET
-* Cookie tracking - Yes
-* Pagnation - No
-* Javascript - Yes
-* Clearly defined data within a row - Yes
-* Scrape detail page - Yes
-
-Enjoy
+This scraper has been merged in to https://github.com/planningalerts-scrapers/multiple_epathway_scraper
